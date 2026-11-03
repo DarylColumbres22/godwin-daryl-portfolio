@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Two themes share one set of semantic names. Values are space-separated RGB
+   channels so Tailwind can apply opacity modifiers (e.g. text-muted/70).
+--------------------------------------------------------------------------- */
+:root,
+.dark {
+  --c-base: 8 14 22; /* near-black navy */
+  --c-surface: 15 24 36;
+  --c-raised: 20 32 47;
+  --c-line: 32 49 68;
+  --c-ink: 226 238 245;
+  --c-muted: 138 160 181;
+  --c-signal: 56 214 214; /* cyan accent, JARVIS-inspired */
+  --c-node: 233 174 74; /* warm amber secondary */
+  color-scheme: dark;
+}
+
+.light {
+  --c-base: 244 247 249;
+  --c-surface: 255 255 255;
+  --c-raised: 236 242 245;
+  --c-line: 205 219 228;
+  --c-ink: 15 27 36;
+  --c-muted: 79 100 117;
+  --c-signal: 9 133 133; /* darkened cyan for contrast on light */
+  --c-node: 166 104 16;
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Keeps section headings clear of the sticky navigation when jumping. */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  @apply bg-base text-ink font-sans antialiased;
+  transition: background-color 300ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Faint scanline texture on dark only; a quiet nod to the HUD reference. */
+.dark body {
+  background-image: repeating-linear-gradient(0deg, rgb(var(--c-ink) / 0.012) 0px, rgb(var(--c-ink) / 0.012) 1px, transparent 1px, transparent 3px);
+}
+
+::selection {
+  background: rgb(var(--c-signal) / 0.28);
+}
+
+/* Visible, consistent keyboard focus everywhere. */
+:focus-visible {
+  outline: 2px solid rgb(var(--c-signal));
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Thin scrollbar that follows the theme (WebKit only, progressive enhancement) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--c-base));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--c-line));
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--c-muted) / 0.6);
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8;
+  }
+
+  .section {
+    @apply scroll-mt-24 py-20 sm:py-24;
+  }
+
+  .panel {
+    @apply rounded-lg border border-line bg-surface;
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded border border-line bg-raised px-2.5 py-1 font-mono text-[0.74rem] font-medium tracking-tight text-muted;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded px-5 py-3 text-sm font-semibold
+           transition-colors duration-200 ease-calm;
+  }
+
+  .btn-primary {
+    @apply btn bg-signal text-base hover:bg-signal/85;
+  }
+
+  .btn-secondary {
+    @apply btn border border-line bg-surface text-ink hover:border-signal/60 hover:bg-raised;
+  }
+
+  .btn-ghost {
+    @apply btn border border-transparent text-muted hover:border-line hover:text-ink;
+  }
+
+  .link-inline {
+    @apply text-ink underline decoration-signal/60 underline-offset-4 transition-colors hover:decoration-signal;
+  }
+}
+
+/* Anyone who asks for less motion gets none of it. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
