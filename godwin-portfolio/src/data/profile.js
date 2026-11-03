@@ -32,7 +32,7 @@ export const profile = {
   ],
 
   // Replace the PDF in /public with this exact filename, or change the path here.
-  resumePath: '/Godwin_Daryl_Columbres_Resume.pdf',
+  resumePath: '/CV.GODWINUp.pdf.pdf',
   resumeFileName: 'Godwin_Daryl_Columbres_Resume.pdf',
 };
 
